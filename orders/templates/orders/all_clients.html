@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block content %}
+<h1>客户列表</h1>
+
+<table>
+    {% if client_list %} {% for client in client_list %}
+    <tr>
+        <td align="left" style="padding: 0em 1em 0em 1em;"><a href="{% url 'profile' client.name%}">{{client.name}}</a></td>
+        <td align="right">{{ client.get_balance }}￥</td>
+        <td width="20%" align="center"><a href="{% url 'payment_history' client.name%}"> 钱 </a></td>
+        <td width="20%"><a href="{% url 'order_history' client.name%}"> 货 </a></td>
+    </tr>
+    {% endfor %} {% endif %}
+</table>
+
+{% endblock %}

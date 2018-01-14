@@ -28,9 +28,9 @@
     </table>
     <br>
     <input type="submit" value="登录" />
-    
-        <input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url 'profile' %}{% endif %}" />
 
-    
+        <input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url 'index' %}{% endif %}" />
+
+
 </form>
 {% endblock %}

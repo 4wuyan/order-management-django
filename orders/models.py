@@ -13,6 +13,27 @@ class Client(models.Model):
     def __str__(self):
         return self.name + ' ' + self.comment
 
+    def get_balance(self):
+        pay_amount = 0
+        buy_amount = 0
+        try:
+            payments = ClientPayment.objects.filter(client=self)
+            for payment in payments:
+                pay_amount += payment.amount_CNY
+        except:
+            pass
+        try:
+            orders = Order.objects.filter(client=self)
+            for order in orders:
+                order.find_total_price()
+                buy_amount += order.final_CNY
+        except:
+            pass
+        self.balance = pay_amount - buy_amount
+        self.pay_amount = pay_amount
+        self.buy_amount = buy_amount
+        return self.balance
+
 class ClientPayment(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, db_column='client')
     date = models.DateField(db_column='date')

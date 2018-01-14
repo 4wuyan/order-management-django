@@ -1,10 +1,10 @@
 {% extends "index.html" %}
 {% block content %}
-<h2>尊敬的金卡至尊VIP贵宾客户，<br>{{client.name}}，您好！</h2>
-<p>您目前已支付{{pay_amount}}元，已购买{{buy_amount}}元</p>
-<h3>余额：￥{{balance}}</h3>
+<h2>尊敬的金卡至尊VIP贵宾客户，{{client.name}}，您好！</h2>
+<p>您目前已支付{{client.pay_amount}}元，已购买{{client.buy_amount}}元</p>
+<h3>余额：￥{{client.balance}}</h3>
 <br>
-<p><a href="{% url 'payment_history' %}"> 查看我的付款记录 </a></p>
-<p><a href="{% url 'order_history' %}"> 查看我的订单记录 </a></p>
+<p><a href="{% url 'payment_history' client.name%}"> 查看我的付款记录 </a></p>
+<p><a href="{% url 'order_history' client.name%}"> 查看我的订单记录 </a></p>
 
 {% endblock %}
