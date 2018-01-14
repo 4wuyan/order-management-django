@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% block content %}
+<h1>订单信息</h1>
+<p>
+    交易日期：{{order.date | date:"c"}} <br>
+    总价：${{order.total_price_AUD}} <br>
+    参考汇率：{{order.exchange_rate}}   <br>
+    约合人民币：￥{{order.total_price_CNY}}<br>
+    卡上实扣：￥{{order.actual_deduction_CNY}} <br>
+    最终记账：￥{{order.final_CNY}}
+</p>
+<h2>物品清单：</h2>
+<table>
+    <tr>
+        <th>名称</th> <th>单价</th> <th>数量</th>
+    </tr>
+    <tr><td colspan="100%"  style="border-bottom:2px solid black; padding: 0em 0em 0em 0em;"></td></tr>
+    {% if item_list %} {% for item in item_list %}
+    <tr>
+        <td>{{item.item_name}}</td>
+        <td align="right" style="padding: 0em 1em 0em 1em;">${{item.price_AUD}}</td>
+        <td align="right">{{item.item_number}}</td>
+    </tr>
+    {% endfor %} {% endif %}
+</table>
+
+{% endblock %}

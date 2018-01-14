@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+{% block content %}
+
+{% if form.errors %}
+<p>用户名密码错误。请重试。</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>该账户没有权限看这个网页</p>
+    {% else %}
+    <p>登录后查看此页面</p>
+    {% endif %}
+{% endif %}
+
+<h1> 请登录 </h1>
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td>用户名</td>
+            <td>{{ form.username }}</td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td>{{ form.password }}</td>
+        </tr>
+    </table>
+    <br>
+    <input type="submit" value="登录" />
+    
+        <input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url 'profile' %}{% endif %}" />
+
+    
+</form>
+{% endblock %}

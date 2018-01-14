@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block content %}
+<h1>订单记录</h1>
+{% if order_list %}
+    <ul>
+    {% for order in order_list %}
+        <li style="margin-top: 0.7em">
+            <a href="{% url 'order_detail' order.id%}">{{ order.date | date:"c" }}：￥{{ order.final_CNY }}</a>
+            <br>{{ order.comment }}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>您还没有订单记录</p>
+{% endif %}
+{% endblock %}

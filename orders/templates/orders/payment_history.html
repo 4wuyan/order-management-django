@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block content %}
+<h1>付款记录</h1>
+{% if payment_list %}
+    <ul>
+    {% for payment in payment_list %}
+        <li>{{ payment.date | date:"c" }}：￥{{ payment.amount_CNY }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>您还没有付款记录</p>
+{% endif %}
+{% endblock %}
