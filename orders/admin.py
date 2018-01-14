@@ -11,11 +11,14 @@ class OrderItemInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemInline]
 
-    list_display = ('client', 'date', 'actual_deduction_CNY', 'comment')
+    list_display = ('client', 'date', 'find_total_price', 'comment')
+
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('name', 'get_balance')
 
 class ClientPaymentAdmin(admin.ModelAdmin):
     list_display = ('client', 'date', 'amount_CNY')
-admin.site.register(Client)
+admin.site.register(Client, ClientAdmin)
 admin.site.register(ClientPayment, ClientPaymentAdmin)
 admin.site.register(Order, OrderAdmin)
 # admin.site.register(OrderItem)

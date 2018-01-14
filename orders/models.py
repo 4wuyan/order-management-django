@@ -69,6 +69,7 @@ class Order(models.Model):
         self.total_price_AUD = total
         self.total_price_CNY = round(total * Decimal(str(self.exchange_rate)), 2)
         self.final_CNY = self.actual_deduction_CNY if self.actual_deduction_CNY else self.total_price_CNY
+        return self.final_CNY
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, db_column='order')
