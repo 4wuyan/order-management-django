@@ -2,6 +2,7 @@
 {% block content %}
 <h1>订单信息</h1>
 <p>
+    {% if is_manager %}客户姓名：{{order.client.name}}<br>{% endif %}
     交易日期：{{order.date | date:"c"}} <br>
     总价：${{order.total_price_AUD}} <br>
     参考汇率：{{order.exchange_rate}}   <br>

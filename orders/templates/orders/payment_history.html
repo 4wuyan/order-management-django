@@ -1,12 +1,24 @@
 {% extends "index.html" %}
 {% block content %}
-<h1>付款记录</h1>
+<h1>
+    {% if client_name == "all" %}
+        所有付款记录
+    {% else %}
+        付款记录{% if is_manager %}：{{client_name}}{% endif %}
+    {% endif %}
+</h1>
 {% if payment_list %}
-    <ul>
-    {% for payment in payment_list %}
-        <li>{{ payment.date | date:"c" }}：￥{{ payment.amount_CNY }}</li>
-    {% endfor %}
-    </ul>
+    <table>
+        {% for payment in payment_list %}
+        <tr>
+            <td style="padding: 0em 0.7em 0em 0.7em;">{{ payment.date | date:"c" }}</td>
+            {% if client_name == "all" %}
+                <td>{{payment.client.name}}</td>
+            {% endif %}
+            <td align="right" style="padding: 0em 0.7em 0em 0.7em;">{{ payment.amount_CNY }}￥</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% else %}
     <p>您还没有付款记录</p>
 {% endif %}
