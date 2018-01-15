@@ -13,12 +13,9 @@
         <li style="margin-top: 0.7em">
             <p>
                 <a href="{% url 'order_detail' order.id%}">
-                    {{ order.date | date:"c" }}
-                    {% if client_name == "all" %}
-                        ，{{order.client.name}}
-                    {% endif %}
+                    {{ order.date | date:"c" }}{% if client_name == "all" %}&nbsp;&nbsp;{{order.client.name}}{% endif %}
                 </a>
-                ：￥{{ order.final_CNY }}
+                &nbsp;￥{{ order.final_CNY }}
                 <br>{{ order.get_item_list }}
             </p>
         </li>
