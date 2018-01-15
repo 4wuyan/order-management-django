@@ -71,6 +71,25 @@ class Order(models.Model):
         self.final_CNY = self.actual_deduction_CNY if self.actual_deduction_CNY else self.total_price_CNY
         return self.final_CNY
 
+    def get_item_list(self):
+        items = OrderItem.objects.filter(order=self)
+        item_number_dict = {}
+        for item in items:
+            name = item.item_name
+            num = item.item_number
+            if name not in item_number_dict:
+                item_number_dict[name] = 0
+            item_number_dict[name] += num
+        string_list = []
+        for name in item_number_dict:
+            item_string = name
+            num = item_number_dict[name]
+            if num > 1:
+                item_string += ' x' + str(num)
+            string_list.append(item_string)
+        return '，'.join(string_list)
+
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, db_column='order')
     item_name = models.CharField(max_length=200, db_column='item_name')

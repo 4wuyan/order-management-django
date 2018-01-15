@@ -2,11 +2,15 @@
 {% block content %}
 <h1>所有付款记录</h1>
 {% if payment_list %}
-    <ul>
-    {% for payment in payment_list %}
-        <li>{{ payment.date | date:"c" }}，{{payment.client.name}}：￥{{ payment.amount_CNY }}</li>
-    {% endfor %}
-    </ul>
+    <table>
+        {% for payment in payment_list %}
+        <tr>
+            <td>{{ payment.date | date:"c" }}</td>
+            <td style="padding: 0em 0.7em 0em 0.7em;">{{payment.client.name}}</td>
+            <td align="right">￥{{ payment.amount_CNY }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% else %}
     <p>还没有付款记录</p>
 {% endif %}
