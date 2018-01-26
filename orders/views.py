@@ -76,7 +76,7 @@ class OrderHistoryView(generic.ListView):
                 orders = get_list_or_404(Order, client=client)
             orders.reverse()
             for o in orders:
-                o.find_total_price()
+                o.set_all_prices()
             return orders
         except:
             return None
@@ -91,7 +91,7 @@ def order_detail(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
     _is_manager = is_manager(request.user)
     if request.user.username == order.client.name or _is_manager:
-        order.find_total_price()
+        order.set_all_prices()
         item_list = get_list_or_404(OrderItem, order=order)
         context = {'order':order, 'item_list':item_list, 'is_manager':_is_manager}
         return render(request, 'orders/order_detail.html', context)
