@@ -10,8 +10,8 @@ class OrderItemInline(admin.TabularInline):
 
 class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemInline]
-
     list_display = ('client', 'date', 'get_total_price_CNY', 'actual_deduction_CNY', 'get_item_list')
+    list_filter = ('client', 'date')
 
 class ClientAdmin(admin.ModelAdmin):
     list_display = ('name', 'get_balance')
