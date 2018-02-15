@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
+from decimal import Decimal
 
 class Client(models.Model):
     name = models.CharField(max_length=20, primary_key=True, db_column='name')
@@ -25,7 +25,7 @@ class Client(models.Model):
         try:
             orders = Order.objects.filter(client=self)
             for order in orders:
-                order.find_total_price()
+                order.set_all_prices()
                 buy_amount += order.final_CNY
         except:
             pass
@@ -51,7 +51,7 @@ class Order(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, db_column='client')
     date = models.DateField(db_column='date')
     exchange_rate = models.FloatField(blank=True, null=True, db_column='exchange_rate')
-    actual_deduction_CNY = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, db_column='actual_deduction_CNY')
+    actual_deduction_CNY = models.DecimalField('实扣', max_digits=10, decimal_places=2, blank=True, null=True, db_column='actual_deduction_CNY')
     comment = models.CharField(max_length=200, blank=True, db_column='comment')
     class Meta:
         db_table = 'Order'
@@ -60,17 +60,20 @@ class Order(models.Model):
         if self.comment:
             answer += '\n' + self.comment
         return answer
-    def find_total_price(self):
+
+    def set_all_prices(self):
         items = OrderItem.objects.filter(order=self)
-        from decimal import Decimal
         total = Decimal('0')
         for item in items:
             total = total + item.price_AUD * item.item_number
         self.total_price_AUD = total
         self.total_price_CNY = round(total * Decimal(str(self.exchange_rate)), 2)
         self.final_CNY = self.actual_deduction_CNY if self.actual_deduction_CNY else self.total_price_CNY
-        return self.final_CNY
-
+    def get_total_price_CNY(self):
+        if not hasattr(self, 'total_price_CNY'):
+            self.set_all_prices()
+        return self.total_price_CNY
+    get_total_price_CNY.short_description = '约合'
     def get_item_list(self):
         items = OrderItem.objects.filter(order=self)
         item_number_dict = {}
@@ -88,7 +91,7 @@ class Order(models.Model):
                 item_string += ' x' + str(num)
             string_list.append(item_string)
         return '，'.join(string_list)
-
+    get_item_list.short_description = '清单'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, db_column='order')
