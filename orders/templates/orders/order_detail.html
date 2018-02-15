@@ -4,9 +4,9 @@
 <p>
     {% if is_manager %}客户姓名：{{order.client.name}}<br>{% endif %}
     交易日期：{{order.date | date:"c"}} <br>
-    总价：${{order.total_price_AUD}} <br>
+    物品总价：${{order.total_price_AUD}} <br>
     参考汇率：{{order.exchange_rate}}   <br>
-    约合人民币：￥{{order.total_price_CNY}}<br>
+    合人民币：￥{{order.total_price_CNY}}<br>
     卡上实扣：￥{{order.actual_deduction_CNY}} <br>
     最终记账：￥{{order.final_CNY}}
 </p>
