@@ -30,4 +30,6 @@
     <input type="submit" value="登录" />
     <input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url 'index' %}{% endif %}" />
 </form>
+<p>提示：用户名为中文姓名，初始密码为小写姓名首字母+身份证后六位</p>
+<p>例：李狗蛋&nbsp;&nbsp;lgd234567</p>
 {% endblock %}
